@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="joker_rouge" size="0.063000 0.088463" />
+    <ImageTarget name="joker_bleu" size="0.063000 0.087834" />
+    <ImageTarget name="7_carreau" size="0.063000 0.088017" />
+    <ImageTarget name="9_trefle" size="0.063000 0.088384" />
+    <ImageTarget name="8_trefle" size="0.063000 0.088594" />
+    <ImageTarget name="7_trefle" size="0.063000 0.087834" />
+    <ImageTarget name="6_trefle" size="0.063000 0.088541" />
+    <ImageTarget name="5_trefle" size="0.063000 0.087834" />
+    <ImageTarget name="3_trefle" size="0.063000 0.088095" />
+    <ImageTarget name="ace_trefle" size="0.063000 0.088304" />
+    <ImageTarget name="9_pique" size="0.063000 0.088569" />
+    <ImageTarget name="8_pique" size="0.063000 0.088148" />
+    <ImageTarget name="7_pique" size="0.063000 0.088516" />
+    <ImageTarget name="6_pique" size="0.063000 0.089074" />
+    <ImageTarget name="5_pique" size="0.063000 0.088148" />
+    <ImageTarget name="3_pique" size="0.063000 0.088279" />
+    <ImageTarget name="ace_pique" size="0.063000 0.087783" />
+    <ImageTarget name="9_coeur" size="0.063000 0.087834" />
+    <ImageTarget name="8_coeur" size="0.063000 0.088279" />
+    <ImageTarget name="7_coeur" size="0.063000 0.088043" />
+    <ImageTarget name="6_coeur" size="0.063000 0.088174" />
+    <ImageTarget name="5_coeur" size="0.063000 0.088541" />
+    <ImageTarget name="3_coeur" size="0.063000 0.088565" />
+    <ImageTarget name="ace_coeur" size="0.063000 0.088618" />
+  </Tracking>
+</QCARConfig>
