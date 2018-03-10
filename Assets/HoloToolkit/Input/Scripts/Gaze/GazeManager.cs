@@ -229,26 +229,45 @@ namespace HoloToolkit.Unity.InputModule
             return true;
         }
 
+		private GameObject currentHitObject;
         /// <summary>
         /// Notifies this gaze manager of its new hit details.
         /// </summary>
         /// <param name="focusDetails">Details of the current focus.</param>
         /// <param name="hitInfo">Details of the focus raycast hit.</param>
         /// <param name="isRegisteredForFocus">Whether or not this gaze manager is registered as a focus pointer.</param>
-        public void UpdateHitDetails(FocusDetails focusDetails, RaycastHit hitInfo, bool isRegisteredForFocus)
-        {
-            HitInfo = hitInfo;
-            HitObject = isRegisteredForFocus
-                ? focusDetails.Object
-                : null; // If we're not actually registered for focus, we keep HitObject as null so we don't mislead anyone.
+		public void UpdateHitDetails(FocusDetails focusDetails, RaycastHit hitInfo, bool isRegisteredForFocus)
+		{
+			HitInfo = hitInfo;
+			HitObject = isRegisteredForFocus
+				? focusDetails.Object
+				: null; // If we're not actually registered for focus, we keep HitObject as null so we don't mislead anyone.
 
-            if (focusDetails.Object != null)
-            {
-                lastHitDistance = (focusDetails.Point - Rays[0].Origin).magnitude;
-                UpdateHitPosition();
-                HitNormal = focusDetails.Normal;
-            }
-        }
+			GameObject oldHitObject = currentHitObject;
+
+			if (focusDetails.Object != null) {//Ici il y a contact avec une virtualisation
+				lastHitDistance = (focusDetails.Point - Rays [0].Origin).magnitude;
+				UpdateHitPosition ();
+				HitNormal = focusDetails.Normal;
+
+				currentHitObject = hitInfo.collider.gameObject;
+			} 
+			else {
+				currentHitObject = null;
+			}
+
+			if(oldHitObject != currentHitObject) //The currently hit object has changed
+			{
+				if (oldHitObject != null) {
+					oldHitObject.SendMessageUpwards ("OnGazeExit",SendMessageOptions.DontRequireReceiver);
+					Debug.Log ("patate leave");
+				}
+				if (currentHitObject != null) {
+					currentHitObject.SendMessageUpwards ("OnGazeEnter",SendMessageOptions.DontRequireReceiver);
+					Debug.Log ("patate enter");
+				}
+			}
+		}
 
         private void UpdateHitPosition()
         {
