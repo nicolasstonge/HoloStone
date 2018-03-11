@@ -12,6 +12,8 @@ public class GazeHandler : Singleton<GazeHandler>
 	private EmissionControl emissionControl;
 	public TextMesh attaqueText;
 	public TextMesh healthText;
+	public TextMesh descriptionText;
+	public GameObject descriptionSprite;
 
 	// Use this for initialization
 	void Start()
@@ -22,6 +24,9 @@ public class GazeHandler : Singleton<GazeHandler>
 
 		attaqueText = GameObject.Find ("Attack").GetComponent<TextMesh> ();
 		healthText = GameObject.Find ("Health").GetComponent<TextMesh> ();
+		descriptionText = GameObject.Find ("Description").GetComponent<TextMesh> ();
+		descriptionSprite = GameObject.Find ("Description_Sprite");
+
 	}
 
 	// Update is called once per frame
@@ -31,9 +36,12 @@ public class GazeHandler : Singleton<GazeHandler>
 
 	void OnGazeEnter()
 	{
-		attaqueText.text = "Attack: " + card.Attack.ToString ();
-		healthText.text = "Health: " + card.MaxHealth.ToString ();
+		attaqueText.text = card.Attack.ToString ();
+		healthText.text = card.MaxHealth.ToString ();
+		descriptionText.text = card.Description.ToString ();
 		emissionControl.enableEmission ();
+		descriptionSprite.SetActive (true);
+
 
 		Debug.Log ("Entrer Gaze");
 		Debug.Log (card.Attack);
@@ -41,6 +49,7 @@ public class GazeHandler : Singleton<GazeHandler>
 
 	void OnGazeExit()
 	{
+		descriptionSprite.SetActive (false);
 		emissionControl.disableEmission ();
 		Debug.Log ("Sortir Gaze");
 	}
