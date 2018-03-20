@@ -18,12 +18,13 @@ public class DetectorAction : MonoBehaviour, ITrackableEventHandler
                 newStatus == TrackableBehaviour.Status.TRACKED ||
                 newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
         {
-            
-            if(!mCardAsset)
+            // mCardAsset is not available at Start(), if null, set it up
+            if (!mCardAsset)
             {
                 mCardAsset = GetComponent<CardAsset>();
             }
-            if(!mCardManager)
+            // mCardManager is not available at Start(), if null, set it up
+            if (!mCardManager)
             {
                 mCardManager = this.transform.parent.GetComponent<CardManager>();
             }
