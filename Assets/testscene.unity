@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -168,7 +168,7 @@ Mesh:
     vertexCount: 4
     localAABB:
       m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0.3557674, y: 0, z: 0.5}
+      m_Extent: {x: 0.35863107, y: 0, z: 0.5}
   m_Shapes:
     vertices: []
     shapes: []
@@ -220,7 +220,7 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 128
-    _typelessdata: 2527b6be00000000000000bf000000000000803f0000000000000000000000002527b6be000000000000003f000000000000803f00000000000000000000803f2527b63e00000000000000bf000000000000803f000000000000803f000000002527b63e000000000000003f000000000000803f000000000000803f0000803f
+    _typelessdata: 7e9eb7be00000000000000bf000000000000803f0000000000000000000000007e9eb7be000000000000003f000000000000803f00000000000000000000803f7e9eb73e00000000000000bf000000000000803f000000000000803f000000007e9eb73e000000000000003f000000000000803f000000000000803f0000803f
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -734,8 +734,9 @@ GameObject:
   - component: {fileID: 432173344}
   - component: {fileID: 432173346}
   - component: {fileID: 432173345}
+  - component: {fileID: 432173347}
   m_Layer: 0
-  m_Name: ImageTarget
+  m_Name: Monstre1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -815,7 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: -1631628248, guid: 1e108ae5f2133934f948edded555f03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTrackableName: 6_trefle
+  mTrackableName: 7_trefle
   mPreserveChildSize: 0
   mInitializedInEditor: 1
   mDataSetPath: Vuforia/CartesDB.xml
@@ -828,10 +829,10 @@ MonoBehaviour:
   mSmartTerrainOccluderOffset: {x: 0, y: 0, z: 0}
   mSmartTerrainOccluderRotation: {x: 0, y: 0, z: 0, w: 0}
   mAutoSetOccluderFromTargetSize: 0
-  mAspectRatio: 1.4054127
+  mAspectRatio: 1.3941904
   mImageTargetType: 0
   mWidth: 0.063
-  mHeight: 0.088541
+  mHeight: 0.087834
 --- !u!4 &432173343
 Transform:
   m_ObjectHideFlags: 0
@@ -839,12 +840,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 432173337}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.088541, y: 0.088541, z: 0.088541}
+  m_LocalPosition: {x: -0.14251128, y: 0.034856565, z: 0.039271437}
+  m_LocalScale: {x: 0.087834, y: 0.087834, z: 0.087834}
   m_Children:
   - {fileID: 1344834282}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1458860304}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &432173344
 MonoBehaviour:
@@ -892,6 +893,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.088541, y: 0.02, z: 0.088541}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &432173347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 432173337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ccf88f7f601c14b9598b5c2cd3279f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &446638410
 GameObject:
   m_ObjectHideFlags: 0
@@ -2429,7 +2441,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 6_trefleMaterial
+  m_Name: 7_trefleMaterial
   m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
@@ -2442,7 +2454,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 0bfd647938b446db915a70ffd2ef68f8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5d5784624b5b4ac4a62e6acbd62fb9db, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -2522,6 +2534,47 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &1458860303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1458860304}
+  - component: {fileID: 1458860305}
+  m_Layer: 0
+  m_Name: CardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1458860304
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1458860303}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.14251128, y: -0.034856565, z: -0.039271437}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 432173343}
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1458860305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1458860303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7055ebf59f720ed45acf56d871a5015f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1525257303
 GameObject:
   m_ObjectHideFlags: 0
@@ -2756,7 +2809,7 @@ Transform:
   m_Children:
   - {fileID: 785272303}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1694832305
 GameObject:
