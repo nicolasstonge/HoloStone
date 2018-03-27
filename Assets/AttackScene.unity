@@ -150,21 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d47347bda67e064a809d771936e3e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &215202867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 215202864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30cffe454dcb54440a64d06ea9d624ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attaqueText: {fileID: 0}
-  healthText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  descriptionSprite: {fileID: 1279060496}
+  targetmonster: {fileID: 0}
 --- !u!114 &215202868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,7 +605,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.05
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -645,7 +631,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 650228839}
   m_LocalRotation: {x: 0.25571, y: -0, z: -0, w: 0.96675354}
-  m_LocalPosition: {x: 0.41, y: 0.26, z: -0.61}
+  m_LocalPosition: {x: 0.41, y: 0.178, z: -0.328}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1103,21 +1089,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 65412d48b22a0a34c957192a0492653d, type: 2}
---- !u!114 &1179839258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1179839256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30cffe454dcb54440a64d06ea9d624ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attaqueText: {fileID: 0}
-  healthText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  descriptionSprite: {fileID: 2064886353}
 --- !u!195 &1179839259
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1168,6 +1139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d47347bda67e064a809d771936e3e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetmonster: {fileID: 0}
 --- !u!1 &1246285570
 GameObject:
   m_ObjectHideFlags: 0
@@ -1183,7 +1155,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1246285571
 Transform:
   m_ObjectHideFlags: 0
