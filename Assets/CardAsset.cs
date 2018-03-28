@@ -50,6 +50,7 @@ public class CardAsset : MonoBehaviour
         bIsAlive = true;
         bAlreadyAttack = false;
 
+        UpdateStats();
 
     }
 
@@ -79,16 +80,12 @@ public class CardAsset : MonoBehaviour
         {
             iCurrentHealth = newLife;
         }
-        TextMesh[] textmeshs = GetComponentsInChildren<TextMesh>();
-        foreach(TextMesh textmesh in textmeshs)
-        {
-            if(textmesh.name == "Health")
-            {
-                textmesh.text = iCurrentHealth.ToString();
-            }
-        }
 
-        
+        // Don't forget to update stats for the visualization
+        UpdateStats();
+
+
+
         return newLife;
     }
 
@@ -103,5 +100,22 @@ public class CardAsset : MonoBehaviour
         // On previent le CardManager
         cardManager.RemoveCardFromDeck(this);
 
+    }
+
+    // Update stats in the sprite for health and attack
+    public void UpdateStats()
+    {
+        TextMesh[] textmeshs = GetComponentsInChildren<TextMesh>();
+        foreach (TextMesh textmesh in textmeshs)
+        {
+            if (textmesh.name == "Health")
+            {
+                textmesh.text = iCurrentHealth.ToString();
+            }
+            else if (textmesh.name == "Attack")
+            {
+                textmesh.text = iCurrentAttack.ToString();
+            }
+        }
     }
 }
