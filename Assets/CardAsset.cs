@@ -36,4 +36,86 @@ public class CardAsset : MonoBehaviour
 	public int specialSpellAmount;
 	public TargetingOptions Targets;
 
+
+    // STAT INGAME
+    private int iCurrentHealth;
+    private int iCurrentAttack;
+    private bool bIsAlive;
+    private bool bAlreadyAttack;
+
+    void Start()
+    {
+        iCurrentHealth = MaxHealth;
+        iCurrentAttack = Attack;
+        bIsAlive = true;
+        bAlreadyAttack = false;
+
+        UpdateStats();
+
+    }
+
+    public int AttackMonster(GameObject monster)
+    {
+        int lifeLeft = monster.GetComponent<CardAsset>().TakeHit(iCurrentAttack);
+        bAlreadyAttack = true;
+        return lifeLeft;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return iCurrentHealth;
+    }
+
+    public int TakeHit(int attack)
+    {
+        int newLife = iCurrentHealth - attack;
+
+        if(newLife <= 0)
+        {
+            bIsAlive = false;
+            iCurrentHealth = 0;
+
+        }
+        else
+        {
+            iCurrentHealth = newLife;
+        }
+
+        // Don't forget to update stats for the visualization
+        UpdateStats();
+
+
+
+        return newLife;
+    }
+
+    public void newTurn()
+    {
+        bAlreadyAttack = false;
+    }
+
+    public void onDeath()
+    {
+        CardManager cardManager = this.transform.parent.GetComponent<CardManager>();
+        // On previent le CardManager
+        cardManager.RemoveCardFromDeck(this);
+
+    }
+
+    // Update stats in the sprite for health and attack
+    public void UpdateStats()
+    {
+        TextMesh[] textmeshs = GetComponentsInChildren<TextMesh>();
+        foreach (TextMesh textmesh in textmeshs)
+        {
+            if (textmesh.name == "Health")
+            {
+                textmesh.text = iCurrentHealth.ToString();
+            }
+            else if (textmesh.name == "Attack")
+            {
+                textmesh.text = iCurrentAttack.ToString();
+            }
+        }
+    }
 }

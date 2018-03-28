@@ -29,6 +29,9 @@ public class CombatManager : MonoBehaviour {
 
             if (selectedMonster != targetMonster)
             {
+                // Attack the Selected Monster
+                int lifeLeft = selectedMonster.GetComponent<CardAsset>().AttackMonster(targetMonster);
+                
                 selectedMonster.GetComponent<MonsterAnim>().attackTarget(monster);
             }
 
