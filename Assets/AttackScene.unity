@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -88,7 +88,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -176,6 +175,29 @@ CapsuleCollider:
   m_Height: 2.1037762
   m_Direction: 1
   m_Center: {x: 0, y: 0.5518881, z: 0}
+--- !u!114 &215202870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 215202864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb8709b803499c48bb041880c7a3b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: 
+  CardImage: {fileID: 0}
+  ManaCost: 0
+  MaxHealth: 10
+  Attack: 5
+  AttacksForOneTurn: 1
+  Charge: 0
+  CreatureScriptName: 
+  specialCreatureAmount: 0
+  SpellScriptName: 
+  specialSpellAmount: 0
+  Targets: 0
 --- !u!4 &215202871 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4299435130434634, guid: 9092396a09d322a48a87d1785d1bdac4,
@@ -1123,6 +1145,29 @@ CapsuleCollider:
   m_Height: 2.1037762
   m_Direction: 1
   m_Center: {x: 0, y: 0.5518881, z: 0}
+--- !u!114 &1179839261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1179839256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb8709b803499c48bb041880c7a3b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: 
+  CardImage: {fileID: 0}
+  ManaCost: 0
+  MaxHealth: 10
+  Attack: 5
+  AttacksForOneTurn: 1
+  Charge: 0
+  CreatureScriptName: Monstre1
+  specialCreatureAmount: 0
+  SpellScriptName: 
+  specialSpellAmount: 0
+  Targets: 0
 --- !u!4 &1179839262 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4299435130434634, guid: 9092396a09d322a48a87d1785d1bdac4,

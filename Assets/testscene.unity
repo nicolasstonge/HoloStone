@@ -731,7 +731,6 @@ GameObject:
   - component: {fileID: 432173340}
   - component: {fileID: 432173339}
   - component: {fileID: 432173338}
-  - component: {fileID: 432173344}
   - component: {fileID: 432173346}
   - component: {fileID: 432173345}
   - component: {fileID: 432173347}
@@ -847,29 +846,6 @@ Transform:
   m_Father: {fileID: 1458860304}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &432173344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 432173337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eb8709b803499c48bb041880c7a3b0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Description: Gros monsieur
-  CardImage: {fileID: 0}
-  ManaCost: 5
-  MaxHealth: 1
-  Attack: 8
-  AttacksForOneTurn: 1
-  Charge: 0
-  CreatureScriptName: 
-  specialCreatureAmount: 0
-  SpellScriptName: 
-  specialSpellAmount: 0
-  Targets: 0
 --- !u!114 &432173345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -904,6 +880,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ccf88f7f601c14b9598b5c2cd3279f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iPlayerOwned: -1
+  bCardPlayed: 0
 --- !u!1 &446638410
 GameObject:
   m_ObjectHideFlags: 0
@@ -2545,6 +2523,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 65412d48b22a0a34c957192a0492653d, type: 2}
+--- !u!114 &1344834288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1344834283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb8709b803499c48bb041880c7a3b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: Gros monsieur
+  CardImage: {fileID: 0}
+  ManaCost: 5
+  MaxHealth: 1
+  Attack: 8
+  AttacksForOneTurn: 1
+  Charge: 0
+  CreatureScriptName: 
+  specialCreatureAmount: 0
+  SpellScriptName: 
+  specialSpellAmount: 0
+  Targets: 0
 --- !u!21 &1399976402
 Material:
   serializedVersion: 6

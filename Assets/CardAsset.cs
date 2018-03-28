@@ -36,4 +36,72 @@ public class CardAsset : MonoBehaviour
 	public int specialSpellAmount;
 	public TargetingOptions Targets;
 
+
+    // STAT INGAME
+    private int iCurrentHealth;
+    private int iCurrentAttack;
+    private bool bIsAlive;
+    private bool bAlreadyAttack;
+
+    void Start()
+    {
+        iCurrentHealth = MaxHealth;
+        iCurrentAttack = Attack;
+        bIsAlive = true;
+        bAlreadyAttack = false;
+
+
+    }
+
+    public int AttackMonster(GameObject monster)
+    {
+        int lifeLeft = monster.GetComponent<CardAsset>().TakeHit(iCurrentAttack);
+        bAlreadyAttack = true;
+        return lifeLeft;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return iCurrentHealth;
+    }
+
+    public int TakeHit(int attack)
+    {
+        int newLife = iCurrentHealth - attack;
+
+        if(newLife <= 0)
+        {
+            bIsAlive = false;
+            iCurrentHealth = 0;
+
+        }
+        else
+        {
+            iCurrentHealth = newLife;
+        }
+        TextMesh[] textmeshs = GetComponentsInChildren<TextMesh>();
+        foreach(TextMesh textmesh in textmeshs)
+        {
+            if(textmesh.name == "Health")
+            {
+                textmesh.text = iCurrentHealth.ToString();
+            }
+        }
+
+        
+        return newLife;
+    }
+
+    public void newTurn()
+    {
+        bAlreadyAttack = false;
+    }
+
+    public void onDeath()
+    {
+        CardManager cardManager = this.transform.parent.GetComponent<CardManager>();
+        // On previent le CardManager
+        cardManager.RemoveCardFromDeck(this);
+
+    }
 }

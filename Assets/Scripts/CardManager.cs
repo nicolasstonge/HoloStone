@@ -25,19 +25,42 @@ public class CardManager : MonoBehaviour
 
 
     // When a new card pop on the board, this function is called
-    public void OnTrackedCard(CardAsset card)
+    public void AddCardToDeck(CardAsset card)
     {
-        mlistCards.Add(card);
+        List<CardAsset> cardDeck;
+        // Add card to the current turn's player
+        if (bTurnPlayer)
+        {
+            cardDeck = lCardsPlayer;
+        }
+        else
+        {
+            cardDeck = lCardsAI;
+        }
+        cardDeck.Add(card);
     }
 
     // When a new card is removed from the board, this function is called
-    public void LostTrackedCard(CardAsset card)
+    public void RemoveCardFromDeck(CardAsset card)
     {
-        mlistCards.Remove(card);
+        List<CardAsset> cardDeck;
+        if (card.GetComponent<DetectorAction>().iPlayerOwned == 1)
+        {
+            cardDeck = lCardsPlayer;
+        }
+        else
+        {
+            cardDeck = lCardsAI;
+        }
+        cardDeck.Remove(card);
+    }
+
+    public bool GetCurrentPlayerTurn()
+    {
+        return bTurnPlayer;
     }
 
 
-    // Use this for initialization
     void Start () {
 		
 	}
@@ -56,7 +79,19 @@ public class CardManager : MonoBehaviour
     {
         bTurnPlayer = !bTurnPlayer;
         iCurrentPlayerActionPoints = ACTION_POINT;
-
+        List<CardAsset> cardDeck;
+        if (bTurnPlayer)
+        {
+            cardDeck = lCardsPlayer;
+        }
+        else
+        {
+            cardDeck = lCardsAI;
+        }
+        foreach(CardAsset card in cardDeck)
+        {
+            card.newTurn();
+        }
 
         if (!bTurnPlayer)
         {
