@@ -23,7 +23,14 @@ public class CardManager : MonoBehaviour
     const int STARTING_LIFE = 5;
     const int ACTION_POINT = 3;
 
-
+    public List<CardAsset> GetAICardOnBoard()
+    {
+        return lCardsAI;
+    }
+    public List<CardAsset> GetPlayerCardOnBoard()
+    {
+        return lCardsPlayer;
+    }
     // When a new card pop on the board, this function is called
     public void AddCardToDeck(CardAsset card)
     {
