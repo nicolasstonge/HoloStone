@@ -10,22 +10,67 @@ public class MonsterAnim : MonoBehaviour {
     Animator animator;
     CombatManager combatManager;
     Vector3 initialPosition;
+    Quaternion initialrotation;
     public GameObject targetmonster;
+    Boolean attacking;
+    Boolean moving;
+    Boolean rotate;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 
         
         nav = transform.GetComponent<NavMeshAgent>();
         animator = transform.GetComponent<Animator>();
         combatManager = GameObject.Find("Board").GetComponent<CombatManager>();
+        attacking = false;
+        moving = false;
+        rotate = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 
-        
+        if (!nav.pathPending && moving)
+        {
+
+            if (nav.remainingDistance <= nav.stoppingDistance)
+            {
+                if (!nav.hasPath || nav.velocity.sqrMagnitude == 0f)
+                {
+                    if (attacking)
+                    {
+                        animator.SetTrigger("attack");
+                        StartCoroutine("waitForAttack");
+                        attacking = false;
+                        moving = false;
+                    }
+                    else
+                    {
+                        
+                        nav.stoppingDistance = 0.08f;
+                        moving = false;
+                        rotate = true;
+                        animator.SetTrigger("idle");
+                    }
+                    
+                }
+            }
+        }
+
+        if (rotate)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, initialrotation, Time.deltaTime * 2);
+            
+
+            if (transform.rotation == initialrotation)
+            {
+                
+                rotate = false;
+            }
+            
+        }
     }
 
     public void getHit()
@@ -42,8 +87,20 @@ public class MonsterAnim : MonoBehaviour {
     {
         targetmonster = monster;
         initialPosition = transform.position;
+        initialrotation = transform.rotation;
         animator.SetTrigger("run");
-        nav.SetDestination(monster.transform.position);   
+        nav.SetDestination(monster.transform.position);
+        attacking = true;
+        moving = true;
+    }
+
+    IEnumerator waitForAttack()
+    {
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        targetmonster.GetComponent<MonsterAnim>().getHit();
+        nav.stoppingDistance = 0;
+        nav.SetDestination(initialPosition);
+        moving = true;
     }
 
     
