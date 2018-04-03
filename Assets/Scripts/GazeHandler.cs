@@ -24,8 +24,8 @@ public class GazeHandler : Singleton<GazeHandler>
 
 		attaqueText = GameObject.Find ("Attack").GetComponent<TextMesh> ();
 		healthText = GameObject.Find ("Health").GetComponent<TextMesh> ();
-		descriptionText = GameObject.Find ("Description").GetComponent<TextMesh> ();
-		descriptionSprite = GameObject.Find ("Description_Sprite");
+		//descriptionText = GameObject.Find ("Description").GetComponent<TextMesh> ();
+		//descriptionSprite = GameObject.Find ("Description_Sprite");
 
 	}
 
@@ -38,9 +38,9 @@ public class GazeHandler : Singleton<GazeHandler>
 	{
 		attaqueText.text = card.Attack.ToString ();
 		healthText.text = card.MaxHealth.ToString ();
-		descriptionText.text = card.Description.ToString ();
+		//descriptionText.text = card.Description.ToString ();
 		emissionControl.enableEmission ();
-		descriptionSprite.SetActive (true);
+		//descriptionSprite.SetActive (true);
 
 
 		Debug.Log ("Entrer Gaze");
@@ -49,7 +49,7 @@ public class GazeHandler : Singleton<GazeHandler>
 
 	void OnGazeExit()
 	{
-		descriptionSprite.SetActive (false);
+		//descriptionSprite.SetActive (false);
 		emissionControl.disableEmission ();
 		Debug.Log ("Sortir Gaze");
 	}

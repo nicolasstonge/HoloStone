@@ -20,7 +20,6 @@ public class DetectorAction : MonoBehaviour, ITrackableEventHandler, IInputClick
                 newStatus == TrackableBehaviour.Status.TRACKED ||
                 newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
         {
-            
 
         }
         else
