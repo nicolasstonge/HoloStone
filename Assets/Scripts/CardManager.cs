@@ -15,13 +15,18 @@ public class CardManager : MonoBehaviour
     bool bGameStarted = false;
     List<CardAsset> lCardsPlayer;
     List<CardAsset> lCardsAI;
-    int iPlayerLife = -1;
-    int iAILife = -1;
+    public int iPlayerLife = -1;
+    public int iAILife = -1;
 
     int iCurrentPlayerActionPoints = -1;
 
     const int STARTING_LIFE = 5;
     const int ACTION_POINT = 3;
+
+	const int AI_STARTING_LIFE = 5;
+
+	QuitGame quitgame;
+
 
 
     // When a new card pop on the board, this function is called
@@ -60,9 +65,23 @@ public class CardManager : MonoBehaviour
         return bTurnPlayer;
     }
 
+	public int GetCurrentPlayerLife()
+	{
+		return iPlayerLife;
+	}
+
+	public int GetCurrentEnnemyLife()
+	{
+		return iAILife;
+	}
+	public bool GetGameStarted()
+	{
+		return bGameStarted;
+	}
 
     void Start () {
-		
+
+		quitgame =(QuitGame) FindObjectOfType(typeof(QuitGame));
 	}
 
     public void StartGame()
@@ -73,6 +92,10 @@ public class CardManager : MonoBehaviour
         iAILife = STARTING_LIFE;
 
         bGameStarted = true;
+
+		Debug.Log ("before"+iPlayerLife);
+		Debug.Log ("before"+iAILife);
+		Debug.Log ("Game Start");
     }
 
     public void PassTurnPlayer()
@@ -102,16 +125,27 @@ public class CardManager : MonoBehaviour
     // Update is called once per frame
     void Update () {
         // Print the list of cards every secondes (For Debug purpose)
-        if (Time.time >= fNextTime)
-        {
-            Debug.Log("List of currently In-Game cards :");
-            foreach (CardAsset cardInGame in mlistCards)
-            {
-                Debug.Log(cardInGame.Description);
-            }
-            fNextTime += iInterval;
-        }
-        
+		if (iPlayerLife <= 0 || iAILife <= 0) { //Fin de partie
+			quitgame.Quit();
+			if (iPlayerLife <= 0) { //Draw
+				Debug.Log ("its a draw");
+			} else if (iPlayerLife <= 0) {
+				Debug.Log ("Player win");
+			} else if (iAILife <= 0) {
+				Debug.Log ("AI win");
+			}
+			bGameStarted = false;
+
+		} else {
+			
+			if (Time.time >= fNextTime) {
+				Debug.Log ("List of currently In-Game cards :");
+				foreach (CardAsset cardInGame in mlistCards) {
+					Debug.Log (cardInGame.Description);
+				}
+				fNextTime += iInterval;
+			}
+		}
 
     }
 }

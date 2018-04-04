@@ -6,6 +6,7 @@ public class MenuManager : MonoBehaviour {
 
 	public Menu CurrentMenu;
 
+
 	public void Start()
 	{
 		ShowMenu (CurrentMenu);
@@ -20,5 +21,5 @@ public class MenuManager : MonoBehaviour {
 		CurrentMenu = menu;
 		CurrentMenu.IsOpen = true;
 	}
-
+		
 }
