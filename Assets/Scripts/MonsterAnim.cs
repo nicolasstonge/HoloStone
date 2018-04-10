@@ -1,10 +1,12 @@
-﻿using System;
+﻿using HoloToolkit.Unity.InputModule;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MonsterAnim : MonoBehaviour {
+public class MonsterAnim : MonoBehaviour, IInputClickHandler
+{
 
     NavMeshAgent nav;
     Animator animator;
@@ -103,7 +105,8 @@ public class MonsterAnim : MonoBehaviour {
         moving = true;
     }
 
-    
-
-    
+    public void OnInputClicked(InputClickedEventData eventData)
+    {
+        combatManager.monsterSelected(transform.gameObject);
+    }
 }

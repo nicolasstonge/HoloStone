@@ -126,9 +126,9 @@ public class CardManager : MonoBehaviour
     void Update () {
         // Print the list of cards every secondes (For Debug purpose)
 		if (iPlayerLife <= 0 || iAILife <= 0) { //Fin de partie
-			quitgame.Quit();
+			//quitgame.Quit();
 			if (iPlayerLife <= 0) { //Draw
-				Debug.Log ("its a draw");
+				//Debug.Log ("its a draw");
 			} else if (iPlayerLife <= 0) {
 				Debug.Log ("Player win");
 			} else if (iAILife <= 0) {

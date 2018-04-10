@@ -260,11 +260,9 @@ namespace HoloToolkit.Unity.InputModule
 			{
 				if (oldHitObject != null) {
 					oldHitObject.SendMessageUpwards ("OnGazeExit",SendMessageOptions.DontRequireReceiver);
-					Debug.Log ("patate leave");
 				}
 				if (currentHitObject != null) {
 					currentHitObject.SendMessageUpwards ("OnGazeEnter",SendMessageOptions.DontRequireReceiver);
-					Debug.Log ("patate enter");
 				}
 			}
 		}
