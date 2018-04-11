@@ -1,4 +1,5 @@
-﻿using HoloToolkit.Unity.InputModule;
+﻿using cakeslice;
+using HoloToolkit.Unity.InputModule;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,21 +18,26 @@ public class MonsterAnim : MonoBehaviour, IInputClickHandler
     Boolean attacking;
     Boolean moving;
     Boolean rotate;
+    public Outline outliner;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
-        
+
         nav = transform.GetComponent<NavMeshAgent>();
         animator = transform.GetComponent<Animator>();
         combatManager = GameObject.Find("Board").GetComponent<CombatManager>();
         attacking = false;
         moving = false;
         rotate = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        outliner = gameObject.GetComponentInChildren<Outline>();
+        outliner.enabled = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
 
         if (!nav.pathPending && moving)
@@ -50,13 +56,15 @@ public class MonsterAnim : MonoBehaviour, IInputClickHandler
                     }
                     else
                     {
-                        
+
                         nav.stoppingDistance = 0.08f;
                         moving = false;
                         rotate = true;
                         animator.SetTrigger("idle");
+                        disableOutline();
+                        targetmonster.GetComponent<MonsterAnim>().disableOutline();
                     }
-                    
+
                 }
             }
         }
@@ -64,16 +72,22 @@ public class MonsterAnim : MonoBehaviour, IInputClickHandler
         if (rotate)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, initialrotation, Time.deltaTime * 2);
-            
+
 
             if (transform.rotation == initialrotation)
             {
-                
+
                 rotate = false;
             }
-            
+
         }
     }
+
+    void OnEnable()
+    {
+        disableOutline();
+    }
+
 
     public void getHit()
     {
@@ -82,7 +96,7 @@ public class MonsterAnim : MonoBehaviour, IInputClickHandler
 
     public void OnMouseDown()
     {
-        combatManager.monsterSelected(transform.gameObject); 
+        combatManager.monsterSelected(transform.gameObject);
     }
 
     public void attackTarget(GameObject monster)
@@ -94,6 +108,26 @@ public class MonsterAnim : MonoBehaviour, IInputClickHandler
         nav.SetDestination(monster.transform.position);
         attacking = true;
         moving = true;
+    }
+
+    public void disableOutline()
+    {
+        outliner.enabled = false;
+    }
+
+    public void enableOutline(string color)
+    {
+        outliner.enabled = true;
+
+        if (color == "green")
+        {
+            outliner.color = 1;
+        }
+        else
+        {
+            outliner.color = 0;
+        }
+
     }
 
     IEnumerator waitForAttack()

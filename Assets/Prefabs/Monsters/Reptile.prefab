@@ -53,6 +53,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4318896298108692}
   - component: {fileID: 137914887459538190}
+  - component: {fileID: 114642665453313530}
   m_Layer: 0
   m_Name: Body_mesh
   m_TagString: Untagged
@@ -2386,6 +2387,21 @@ MonoBehaviour:
   SpellScriptName: 
   specialSpellAmount: 0
   Targets: 0
+--- !u!114 &114642665453313530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1043494275170544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
+  originalLayer: 0
+  originalMaterials: []
 --- !u!114 &114706249198573598
 MonoBehaviour:
   m_ObjectHideFlags: 1

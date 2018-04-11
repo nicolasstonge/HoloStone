@@ -22,6 +22,7 @@ public class CombatManager : MonoBehaviour {
         if (selectedMonster == null)
         {
             selectedMonster = monster;
+            selectedMonster.GetComponent<MonsterAnim>().enableOutline("green");
         }
         else
         {
@@ -33,6 +34,7 @@ public class CombatManager : MonoBehaviour {
                 int lifeLeft = selectedMonster.GetComponent<CardAsset>().AttackMonster(targetMonster);
                 
                 selectedMonster.GetComponent<MonsterAnim>().attackTarget(monster);
+                targetMonster.GetComponent<MonsterAnim>().enableOutline("red");
             }
 
             selectedMonster = null;
