@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
@@ -15,8 +16,10 @@ public class CardManager : MonoBehaviour
     bool bGameStarted = false;
     List<CardAsset> lCardsPlayer;
     List<CardAsset> lCardsAI;
-    public int iPlayerLife = -1;
+    public int iPlayerLife = -1;    
     public int iAILife = -1;
+
+    private IA_Player ia;
 
     int iCurrentPlayerActionPoints = -1;
 
@@ -27,11 +30,19 @@ public class CardManager : MonoBehaviour
 
 	QuitGame quitgame;
 
-
+    public List<CardAsset> GetAICardOnBoard()
+    {
+        return lCardsAI;
+    }
+    public List<CardAsset> GetPlayerCardOnBoard()
+    {
+        return lCardsPlayer;
+    }
 
     // When a new card pop on the board, this function is called
     public void AddCardToDeck(CardAsset card)
     {
+        Debug.Log("Adding Card ");
         List<CardAsset> cardDeck;
         // Add card to the current turn's player
         if (bTurnPlayer)
@@ -80,8 +91,9 @@ public class CardManager : MonoBehaviour
 	}
 
     void Start () {
+        StartGame();
 
-		quitgame =(QuitGame) FindObjectOfType(typeof(QuitGame));
+        quitgame =(QuitGame) FindObjectOfType(typeof(QuitGame));
 	}
 
     public void StartGame()
@@ -100,9 +112,11 @@ public class CardManager : MonoBehaviour
 
     public void PassTurnPlayer()
     {
+        
         bTurnPlayer = !bTurnPlayer;
         iCurrentPlayerActionPoints = ACTION_POINT;
         List<CardAsset> cardDeck;
+
         if (bTurnPlayer)
         {
             cardDeck = lCardsPlayer;
@@ -111,17 +125,43 @@ public class CardManager : MonoBehaviour
         {
             cardDeck = lCardsAI;
         }
-        foreach(CardAsset card in cardDeck)
+        try
         {
-            card.newTurn();
+            if (cardDeck.Count > 0)
+            {
+                foreach (CardAsset card in cardDeck)
+                {
+                    card.newTurn();
+                }
+            }
         }
+        catch (Exception e)
+        {
+            Debug.Log("Empty Cards");
+
+        }
+
 
         if (!bTurnPlayer)
         {
+            if (!ia)
+            {
+                ia = GetComponent<IA_Player>();
+            }
+            if (ia)
+            {
+                ia.OnTurnStart();
+            }
+            else
+            {
+                Debug.Log("Cant cant ref to IA_Player ia (CardManager)");
+            }
             // Call AI to play a turn?
         }
+    
 
     }
+
     // Update is called once per frame
     void Update () {
         // Print the list of cards every secondes (For Debug purpose)
@@ -138,14 +178,22 @@ public class CardManager : MonoBehaviour
 
 		} else {
 			
-			if (Time.time >= fNextTime) {
+			if (Time.time >= fNextTime)
+            {
 				Debug.Log ("List of currently In-Game cards :");
-				foreach (CardAsset cardInGame in mlistCards) {
-					Debug.Log (cardInGame.Description);
+                Debug.Log("Player :");
+                foreach (CardAsset cardInGame in lCardsPlayer) {
+					Debug.Log (cardInGame.name);
 				}
-				fNextTime += iInterval;
+                Debug.Log("IA :");
+                foreach (CardAsset cardInGame in lCardsAI)
+                {
+                    Debug.Log(cardInGame.name);
+                }
+                fNextTime += iInterval;
 			}
 		}
+        
 
     }
 }

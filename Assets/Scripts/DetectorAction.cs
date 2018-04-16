@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
 using HoloToolkit.Unity.InputModule;
+using UnityEngine.AI;
 
 public class DetectorAction : MonoBehaviour, ITrackableEventHandler, IInputClickHandler
 {
@@ -51,16 +52,31 @@ public class DetectorAction : MonoBehaviour, ITrackableEventHandler, IInputClick
     {
         Debug.Log("Entered");
 
-        GameObject card = this.transform.GetChild(0).gameObject;
-        card.transform.position = other.transform.position;
-        card.transform.rotation = other.transform.rotation;
-        card.transform.parent = other.transform.parent.transform;
+        Transform t = this.transform;
+        GameObject card = new GameObject();
+        Transform place = other.transform.parent.transform;
+        Debug.Log("Get playable");
+        for (int i = 0; i < t.childCount; i++)
+        {
+            if (t.GetChild(i).gameObject.tag == "Playable")
+            {
+                card = t.GetChild(i).gameObject;
+            }
+
+        }
+        bool test = card.GetComponent<NavMeshAgent>().Warp(place.position);
+        Debug.Log("Collider - Wrap is" + test);
+        card.transform.position = place.position;
+        Debug.Log("Location : " + card.transform.position);
+        Debug.Log("Location parent : " + card.transform.parent.transform.position);
+        card.transform.rotation = place.rotation;
+        card.transform.parent = place;
         card.SetActive(true);
 
         // mCardAsset is not available at Start(), if null, set it up
         if (!mCardAsset)
         {
-            mCardAsset = GetComponent<CardAsset>();
+            mCardAsset = card.GetComponent<CardAsset>();
         }
         // mCardManager is not available at Start(), if null, set it up
         if (!mCardManager)
@@ -69,7 +85,7 @@ public class DetectorAction : MonoBehaviour, ITrackableEventHandler, IInputClick
         }
         // Notify the CardManager
         mCardManager.AddCardToDeck(mCardAsset);
-        SetOwnerCarte();
+        //SetOwnerCarte();
 
     }
 
@@ -83,6 +99,7 @@ public class DetectorAction : MonoBehaviour, ITrackableEventHandler, IInputClick
         {
             iPlayerOwned = 0;
         }
+        Debug.Log("Player owner : " + iPlayerOwned);
     }
 
     private void OnTriggerExit(Collider other)

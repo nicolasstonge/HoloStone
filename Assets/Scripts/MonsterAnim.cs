@@ -38,7 +38,11 @@ public class MonsterAnim : MonoBehaviour, IInputClickHandler
     // Update is called once per frame
     void Update()
     {
-
+        if(!animator)
+        {
+            animator = transform.GetComponent<Animator>();
+        }
+        
 
         if (!nav.pathPending && moving)
         {
@@ -81,6 +85,7 @@ public class MonsterAnim : MonoBehaviour, IInputClickHandler
             }
 
         }
+
     }
 
     void OnEnable()
@@ -101,18 +106,52 @@ public class MonsterAnim : MonoBehaviour, IInputClickHandler
 
     public void attackTarget(GameObject monster)
     {
-        targetmonster = monster;
-        initialPosition = transform.position;
-        initialrotation = transform.rotation;
-        animator.SetTrigger("run");
-        nav.SetDestination(monster.transform.position);
-        attacking = true;
-        moving = true;
+        if (monster)
+        {
+            targetmonster = monster;
+            initialPosition = transform.position;
+            initialrotation = transform.rotation;
+
+            if (!animator)
+            {
+                Debug.Log("Getting animator...");
+                animator = transform.GetComponent<Animator>();
+                Debug.Log("Got the following: ");
+                Debug.Log(animator.name);
+            }
+            if(!nav)
+            {
+                nav = transform.GetComponent<NavMeshAgent>();
+            }
+            if (animator && nav)
+            {
+                animator.SetTrigger("run");
+                nav.SetDestination(monster.transform.position);
+                attacking = true;
+                moving = true;
+            }
+            else
+            {
+                Debug.Log("Err - No animator or Nav sto attackTarget");
+            }
+        }
+        else
+        {
+            Debug.Log("Err - No monster to attackTarget");
+        }
+        
     }
 
     public void disableOutline()
     {
-        outliner.enabled = false;
+        if(outliner)
+        {
+            outliner.enabled = false;
+        }
+        else
+        {
+            return;
+        }
     }
 
     public void enableOutline(string color)

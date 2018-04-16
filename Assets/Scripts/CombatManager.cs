@@ -41,4 +41,29 @@ public class CombatManager : MonoBehaviour {
             targetMonster = null;
         }
     }
+
+    public void monsterSelected(GameObject monster, bool isIA)
+    {
+        if (selectedMonster == null)
+        {
+            selectedMonster = monster;
+            
+        }
+        else
+        {
+            targetMonster = monster;
+
+            if (selectedMonster != targetMonster)
+            {
+                // Attack the Selected Monster
+                int lifeLeft = selectedMonster.GetComponent<CardAsset>().AttackMonster(targetMonster);
+
+                selectedMonster.GetComponent<MonsterAnim>().attackTarget(monster);
+                
+            }
+
+            selectedMonster = null;
+            targetMonster = null;
+        }
+    }
 }
