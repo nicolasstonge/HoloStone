@@ -4,6 +4,7 @@ using UnityEngine;
 using Vuforia;
 using HoloToolkit.Unity.InputModule;
 using UnityEngine.AI;
+using System;
 
 public class DetectorAction : MonoBehaviour, ITrackableEventHandler, IInputClickHandler
 {
@@ -52,10 +53,13 @@ public class DetectorAction : MonoBehaviour, ITrackableEventHandler, IInputClick
     {
         Debug.Log("Entered");
 
-        Transform t = this.transform;
-        GameObject card = new GameObject();
+        GameObject duplicateGameObject = (this.gameObject);
+        Transform t = duplicateGameObject.transform;
+        
         Transform place = other.transform.parent.transform;
         Debug.Log("Get playable");
+
+        GameObject card = new GameObject();
         for (int i = 0; i < t.childCount; i++)
         {
             if (t.GetChild(i).gameObject.tag == "Playable")
@@ -64,8 +68,19 @@ public class DetectorAction : MonoBehaviour, ITrackableEventHandler, IInputClick
             }
 
         }
-        bool test = card.GetComponent<NavMeshAgent>().Warp(place.position);
-        Debug.Log("Collider - Wrap is" + test);
+        try
+        {
+            bool test = card.GetComponent<NavMeshAgent>().Warp(place.position);
+            Debug.Log("Collider - Wrap is" + test);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("No Playable");
+            Debug.Log(e);
+            return;
+        }
+        
+        
         card.transform.position = place.position;
         Debug.Log("Location : " + card.transform.position);
         Debug.Log("Location parent : " + card.transform.parent.transform.position);

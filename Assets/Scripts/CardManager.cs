@@ -21,6 +21,10 @@ public class CardManager : MonoBehaviour
 
     GameObject mYouLoose;
     GameObject mYouWon;
+    bool bInitStringWon = false;
+    bool bInitStringLoose = false;
+
+    bool bGameDone = false;
 
     private IA_Player ia;
 
@@ -76,6 +80,7 @@ public class CardManager : MonoBehaviour
     // When a new card is removed from the board, this function is called
     public void RemoveCardFromDeck(CardAsset card)
     {
+        Debug.Log("Remove card " + card.name);
         List<CardAsset> cardDeck;
         if (card.GetComponent<DetectorAction>().iPlayerOwned == 1)
         {
@@ -85,7 +90,10 @@ public class CardManager : MonoBehaviour
         {
             cardDeck = lCardsAI;
         }
-        cardDeck.Remove(card);
+        Debug.Log(cardDeck.Remove(card));
+        // Once removed from the board, DESTROY!
+        Debug.Log("Destroy " + card.name);
+        GameObject.Destroy(card.gameObject);
     }
 
     public bool GetCurrentPlayerTurn()
@@ -137,6 +145,7 @@ public class CardManager : MonoBehaviour
         iCurrentPlayerActionPoints = ACTION_POINT;
         List<CardAsset> cardDeck;
 
+        // Check the current turn to get the right deck of cards
         if (bTurnPlayer)
         {
             cardDeck = lCardsPlayer;
@@ -145,6 +154,8 @@ public class CardManager : MonoBehaviour
         {
             cardDeck = lCardsAI;
         }
+
+        // Here we reset all the cards of the board to be ready for a new turn
         try
         {
             if (cardDeck.Count > 0)
@@ -153,6 +164,8 @@ public class CardManager : MonoBehaviour
                 {
                     Debug.Log("New Turn for " + card.name);
                     card.newTurn();
+                    card.GetComponent<MonsterAnim>().disableOutline();
+                    card.bFirstTurn = false;
                 }
             }
         }
@@ -162,7 +175,7 @@ public class CardManager : MonoBehaviour
 
         }
 
-
+        // If its the IAs turn, we just get the IA and play the turn
         if (!bTurnPlayer)
         {
             if (!ia)
@@ -177,14 +190,16 @@ public class CardManager : MonoBehaviour
             {
                 Debug.Log("Cant cant ref to IA_Player ia (CardManager)");
             }
-            // Call AI to play a turn?
+
         }
     
 
     }
 
+
     public void getDamagePlayer(int damage)
     {
+        // Check which player is taking damanges
         if (bTurnPlayer)
         {
             iAILife = iAILife - damage;
@@ -194,14 +209,6 @@ public class CardManager : MonoBehaviour
                 //YOU WON
                 Debug.Log("YOU WON");
 
-                GameObject[] listVictory = GameObject.FindGameObjectsWithTag("Victory");
-                foreach (GameObject obj in listVictory)
-                {
-                    if(obj.name == "YouWin")
-                    {
-                        obj.SetActive(true);
-                    }
-                }
 
             }
         }
@@ -212,49 +219,92 @@ public class CardManager : MonoBehaviour
             {
                 //YOU LOOSE
                 Debug.Log("YOU LOOSE");
-                GameObject[] listVictory = GameObject.FindGameObjectsWithTag("Victory");
-                foreach (GameObject obj in listVictory)
-                {
-                    if (obj.name == "YouLoose")
-                    {
-                        obj.SetActive(true);
-                    }
-                }
+
             }
         }
     }
     // Update is called once per frame
     void Update () {
         // Print the list of cards every secondes (For Debug purpose)
-		if (iPlayerLife <= 0 || iAILife <= 0) { //Fin de partie
-			//quitgame.Quit();
-			if (iPlayerLife <= 0) { //Draw
-				//Debug.Log ("its a draw");
-			} else if (iPlayerLife <= 0) {
-                Debug.Log("AI win");
-            } else if (iAILife <= 0) {
-                Debug.Log("Player win");
-               
-			}
-			bGameStarted = false;
-
-		} else {
-			
-			if (Time.time >= fNextTime)
-            {
-				Debug.Log ("List of currently In-Game cards :");
-                Debug.Log("Player :");
-                foreach (CardAsset cardInGame in lCardsPlayer) {
-					Debug.Log (cardInGame.name);
-				}
-                Debug.Log("IA :");
-                foreach (CardAsset cardInGame in lCardsAI)
+        if(!bGameDone)
+        {
+            if (iPlayerLife <= 0 || iAILife <= 0)
+            {   
+                //Fin de partie
+                
+                //quitgame.Quit();
+                if (iPlayerLife <= 0)
                 {
-                    Debug.Log(cardInGame.name);
+                    Debug.Log("AI win");
+                    // Show the text You Loose
+                    mYouLoose.SetActive(true);
                 }
-                fNextTime += iInterval;
-			}
-		}
+                else if (iAILife <= 0)
+                {
+                    Debug.Log("Player win");
+                    // Show the text You Win
+                    mYouWon.SetActive(true);
+
+
+                }
+                bGameStarted = false;
+                bGameDone = true;
+
+            }
+            else
+            {
+                // Get the ref to the string YouWin to disable it and keep a ref on it for the end
+                if (!mYouWon || !bInitStringWon)
+                {
+                    GameObject[] listVictory = GameObject.FindGameObjectsWithTag("Victory");
+                    foreach (GameObject obj in listVictory)
+                    {
+                        Debug.Log("Loop over " + obj.name);
+                        if (obj.name == "YouWin")
+                        {
+                            mYouWon = obj;
+                            mYouWon.SetActive(false);
+                            bInitStringWon = true;
+                        }
+                    }
+                }
+                // Get the ref to the string YouLoose to disable it and keep a ref on it for the end
+                if (!mYouLoose || bInitStringLoose)
+                {
+                    GameObject[] listVictory = GameObject.FindGameObjectsWithTag("Victory");
+                    foreach (GameObject obj in listVictory)
+                    {
+                        Debug.Log("Loop over " + obj.name);
+                        if (obj.name == "YouLose")
+                        {
+                            mYouLoose = obj;
+                            mYouLoose.SetActive(false);
+                            bInitStringLoose = true;
+                        }
+                    }
+                }
+
+                return;
+
+                // Debug Inventory of cards on boards :
+                //
+                //if (Time.time >= fNextTime)
+                //         {
+                //	Debug.Log ("List of currently In-Game cards :");
+                //             Debug.Log("Player :");
+                //             foreach (CardAsset cardInGame in lCardsPlayer) {
+                //		Debug.Log (cardInGame.name);
+                //	}
+                //             Debug.Log("IA :");
+                //             foreach (CardAsset cardInGame in lCardsAI)
+                //             {
+                //                 Debug.Log(cardInGame.name);
+                //             }
+                //             fNextTime += iInterval;
+                //}
+            }
+        }
+
         
 
     }

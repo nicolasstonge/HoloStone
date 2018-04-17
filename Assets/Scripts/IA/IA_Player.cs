@@ -45,6 +45,8 @@ public class IA_Player : MonoBehaviour
         int i2 = 0;
         Debug.Log("IA Want to place a card");
         Debug.Log(cardObject.name);
+
+        GameObject newCardObject = Instantiate(cardObject);
         Debug.Log("Using Slot " + currentSlot);
         if(currentSlot > 2)
         {
@@ -58,7 +60,7 @@ public class IA_Player : MonoBehaviour
 
 
 
-        Transform t = cardObject.transform;
+        Transform t = newCardObject.transform;
         GameObject card = new GameObject();
         //GameObject card = this.transform.GetChild(0).gameObject;
         Transform place = myspot.transform;
@@ -95,12 +97,13 @@ public class IA_Player : MonoBehaviour
         // Set child spot
         card.transform.position = place.position; // new Vector3(0, 0, 0);
         
-        //Debug.Log("Location parent : " + card.transform.parent.transform.position);
+        Debug.Log("Location parent : " + card.transform.parent.transform.position);
         Debug.Log("Location child : " + card.transform.position);
-        card.transform.rotation = place.rotation;
+        
         card.transform.parent = place;
         Debug.Log("Setting the card active... " + card.name);
         card.SetActive(true);
+        card.transform.Rotate(Vector3.up, 90);
         Debug.Log("Should see the card now.");
 
 
@@ -157,12 +160,15 @@ public class IA_Player : MonoBehaviour
                 {
                     foreach (CardAsset card in GetMonsterOnBoard())
                     {
-                        Debug.Log("Attack with " + card.name);
-                        GameObject MonsterSelected = (card as MonoBehaviour).gameObject;
-                        GameObject monsterTargeted = (GetEnnemiesOnBoard()[0] as MonoBehaviour).gameObject;
+                        // Check if its not first turn for the card
+                        if(!card.bFirstTurn)
+                        {
+                            Debug.Log("Attack with " + card.name);
+                            GameObject MonsterSelected = (card as MonoBehaviour).gameObject;
+                            GameObject monsterTargeted = (GetEnnemiesOnBoard()[0] as MonoBehaviour).gameObject;
+                            AttackWithMonsters(MonsterSelected, monsterTargeted);
+                        }
 
-
-                        AttackWithMonsters(MonsterSelected, monsterTargeted);
                     }
                 }
             }

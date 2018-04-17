@@ -19,12 +19,20 @@ public class CombatManager : MonoBehaviour {
 
     public void monsterSelected(GameObject monster)
     {
-        if(monster.GetComponent<CardAsset>().bAlreadyAttack)
-        {
-            return;
-        }
         if (selectedMonster == null)
         {
+            // You cant select a monster you already play this turn
+            if (monster.GetComponent<CardAsset>().bAlreadyAttack)
+            {
+                Debug.Log(monster.name + " already attacked");
+                return;
+            }
+            if (monster.GetComponent<CardAsset>().bFirstTurn)
+            {
+                Debug.Log(monster.name + " just spawned, cant use it");
+                return;
+            }
+
             if (monster.GetComponent<CardAsset>().player)
             {
                 Debug.Log("Player, GTFO");
@@ -64,7 +72,8 @@ public class CombatManager : MonoBehaviour {
             {
                 if (targetMonster.GetComponent<CardAsset>().player)
                 {
-                    // Attack the Selected Monster
+                    Debug.Log("Attacking a player!");
+                    // Attack the Selected player
                     int lifeLeft = selectedMonster.GetComponent<CardAsset>().AttackPlayer(targetMonster);
 
                     selectedMonster.GetComponent<MonsterAnim>().attackTarget(monster);
@@ -72,6 +81,8 @@ public class CombatManager : MonoBehaviour {
                 }
                 else
                 {
+                    Debug.Log("Attacking a Monster!");
+                    Debug.Log("Attacking a player!");
                     // Attack the Selected Monster
                     int lifeLeft = selectedMonster.GetComponent<CardAsset>().AttackMonster(targetMonster);
 
@@ -82,7 +93,11 @@ public class CombatManager : MonoBehaviour {
 
 
             }
-
+            else
+            {
+                Debug.Log("Seems that " + selectedMonster.name + " == " + targetMonster.name);
+            }
+            selectedMonster.GetComponent<MonsterAnim>().disableOutline();
             selectedMonster = null;
             targetMonster = null;
         }
@@ -92,7 +107,7 @@ public class CombatManager : MonoBehaviour {
     {
         if (selectedMonster == null)
         {
-            if(selectedMonster.GetComponent<CardAsset>().player)
+            if(monster.GetComponent<CardAsset>().player)
             {
                 return;
             }

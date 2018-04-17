@@ -44,6 +44,7 @@ public class CardAsset : MonoBehaviour
     private int iCurrentAttack;
     private bool bIsAlive;
     public bool bAlreadyAttack;
+    public bool bFirstTurn = true;
 
     void Start()
     {
