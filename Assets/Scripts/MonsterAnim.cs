@@ -182,4 +182,9 @@ public class MonsterAnim : MonoBehaviour, IInputClickHandler
     {
         combatManager.monsterSelected(transform.gameObject);
     }
+
+    public void Die()
+    {
+        animator.SetTrigger("dead");
+    }
 }

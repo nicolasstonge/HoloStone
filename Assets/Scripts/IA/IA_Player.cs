@@ -27,7 +27,7 @@ public class IA_Player : MonoBehaviour
     public void OnTurnStart()
     {
 
-        handPlayer.Add(DrawACard());
+        handPlayer.Add(Instantiate(DrawACard()));
         MakeAITurn();
         EndTurn();
     }
@@ -61,7 +61,7 @@ public class IA_Player : MonoBehaviour
         Transform t = cardObject.transform;
         GameObject card = new GameObject();
         //GameObject card = this.transform.GetChild(0).gameObject;
-        Transform place = myspot.transform.parent.transform;
+        Transform place = myspot.transform;
         Debug.Log("Looking for Playable tag");
         for (int i = 0; i < t.childCount; i++)
         {
@@ -89,9 +89,13 @@ public class IA_Player : MonoBehaviour
             Debug.Log(e.ToString());
         }
 
+        // Set parent spot
+        //card.transform.parent.transform.position = place.position;
+
+        // Set child spot
         card.transform.position = place.position; // new Vector3(0, 0, 0);
-        card.transform.parent.transform.position = place.position;
-        Debug.Log("Location parent : " + card.transform.parent.transform.position);
+        
+        //Debug.Log("Location parent : " + card.transform.parent.transform.position);
         Debug.Log("Location child : " + card.transform.position);
         card.transform.rotation = place.rotation;
         card.transform.parent = place;

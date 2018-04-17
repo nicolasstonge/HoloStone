@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public enum TargetingOptions
 {
@@ -30,6 +31,7 @@ public class CardAsset : MonoBehaviour
 	public bool Charge;
 	public string CreatureScriptName;
 	public int specialCreatureAmount;
+    public bool player = false;
 
 	[Header("SpellInfo")]
 	public string SpellScriptName;
@@ -41,7 +43,7 @@ public class CardAsset : MonoBehaviour
     private int iCurrentHealth;
     private int iCurrentAttack;
     private bool bIsAlive;
-    private bool bAlreadyAttack;
+    public bool bAlreadyAttack;
 
     void Start()
     {
@@ -68,12 +70,20 @@ public class CardAsset : MonoBehaviour
 
     public int TakeHit(int attack)
     {
+
         int newLife = iCurrentHealth - attack;
 
         if(newLife <= 0)
         {
             bIsAlive = false;
             iCurrentHealth = 0;
+            if(!player)
+            {
+                GetComponent<MonsterAnim>().Die();
+            }
+            
+
+
 
         }
         else
@@ -84,9 +94,21 @@ public class CardAsset : MonoBehaviour
         // Don't forget to update stats for the visualization
         UpdateStats();
 
-
+        if (player)
+        {
+            GameObject cardManObj = GameObject.Find("CardManager");
+            CardManager cardManager = cardManObj.GetComponent<CardManager>();
+            cardManager.getDamagePlayer(attack);
+        }
 
         return newLife;
+    }
+
+    internal int AttackPlayer(GameObject targetPlayer)
+    {
+        int lifeLeft = targetPlayer.GetComponent<CardAsset>().TakeHit(iCurrentAttack);
+        bAlreadyAttack = true;
+        return lifeLeft;
     }
 
     public void newTurn()

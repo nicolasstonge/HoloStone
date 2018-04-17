@@ -19,14 +19,17 @@ public class CardManager : MonoBehaviour
     public int iPlayerLife = -1;    
     public int iAILife = -1;
 
+    GameObject mYouLoose;
+    GameObject mYouWon;
+
     private IA_Player ia;
 
     int iCurrentPlayerActionPoints = -1;
 
-    const int STARTING_LIFE = 5;
+    const int STARTING_LIFE = 15;
     const int ACTION_POINT = 3;
 
-	const int AI_STARTING_LIFE = 5;
+	const int AI_STARTING_LIFE = 15;
 
 	QuitGame quitgame;
 
@@ -37,6 +40,20 @@ public class CardManager : MonoBehaviour
     public List<CardAsset> GetPlayerCardOnBoard()
     {
         return lCardsPlayer;
+    }
+
+    public List<CardAsset> GetCurrentPlayerCards()
+    {
+        List<CardAsset> cardDeck;
+        if (bTurnPlayer)
+        {
+            cardDeck = lCardsPlayer;
+        }
+        else
+        {
+            cardDeck = lCardsAI;
+        }
+        return cardDeck;
     }
 
     // When a new card pop on the board, this function is called
@@ -90,7 +107,10 @@ public class CardManager : MonoBehaviour
 		return bGameStarted;
 	}
 
-    void Start () {
+    void Start ()
+    {
+
+       
         StartGame();
 
         quitgame =(QuitGame) FindObjectOfType(typeof(QuitGame));
@@ -131,6 +151,7 @@ public class CardManager : MonoBehaviour
             {
                 foreach (CardAsset card in cardDeck)
                 {
+                    Debug.Log("New Turn for " + card.name);
                     card.newTurn();
                 }
             }
@@ -162,6 +183,46 @@ public class CardManager : MonoBehaviour
 
     }
 
+    public void getDamagePlayer(int damage)
+    {
+        if (bTurnPlayer)
+        {
+            iAILife = iAILife - damage;
+
+            if(iAILife <= 0)
+            {
+                //YOU WON
+                Debug.Log("YOU WON");
+
+                GameObject[] listVictory = GameObject.FindGameObjectsWithTag("Victory");
+                foreach (GameObject obj in listVictory)
+                {
+                    if(obj.name == "YouWin")
+                    {
+                        obj.SetActive(true);
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            iPlayerLife = iPlayerLife - damage;
+            if (iPlayerLife <= 0)
+            {
+                //YOU LOOSE
+                Debug.Log("YOU LOOSE");
+                GameObject[] listVictory = GameObject.FindGameObjectsWithTag("Victory");
+                foreach (GameObject obj in listVictory)
+                {
+                    if (obj.name == "YouLoose")
+                    {
+                        obj.SetActive(true);
+                    }
+                }
+            }
+        }
+    }
     // Update is called once per frame
     void Update () {
         // Print the list of cards every secondes (For Debug purpose)
@@ -170,9 +231,10 @@ public class CardManager : MonoBehaviour
 			if (iPlayerLife <= 0) { //Draw
 				//Debug.Log ("its a draw");
 			} else if (iPlayerLife <= 0) {
-				Debug.Log ("Player win");
-			} else if (iAILife <= 0) {
-				Debug.Log ("AI win");
+                Debug.Log("AI win");
+            } else if (iAILife <= 0) {
+                Debug.Log("Player win");
+               
 			}
 			bGameStarted = false;
 
