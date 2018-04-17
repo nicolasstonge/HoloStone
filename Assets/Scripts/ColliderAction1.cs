@@ -23,8 +23,9 @@ public class ColliderAction1 : MonoBehaviour
 
         }
         bool test = card.GetComponent<NavMeshAgent>().Warp(place.position);
-        Debug.Log("Wrap is" + test);
+        Debug.Log("Collider - Wrap is" + test);
         card.transform.position = place.position;
+        Debug.Log("Location : " + place.position);
         card.transform.rotation = place.rotation;
         card.transform.parent = place;
         card.SetActive(true);
