@@ -100,6 +100,8 @@ public class DetectorAction : MonoBehaviour, ITrackableEventHandler, IInputClick
         }
         // Notify the CardManager
         mCardManager.AddCardToDeck(mCardAsset);
+        AudioSource audioSource = GameObject.Find("Spawn").GetComponent<AudioSource>();
+        audioSource.Play();
         //SetOwnerCarte();
 
     }

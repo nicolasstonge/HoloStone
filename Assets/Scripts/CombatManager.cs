@@ -21,21 +21,29 @@ public class CombatManager : MonoBehaviour {
     {
         if (selectedMonster == null)
         {
+            
+
             // You cant select a monster you already play this turn
             if (monster.GetComponent<CardAsset>().bAlreadyAttack)
             {
                 Debug.Log(monster.name + " already attacked");
+                AudioSource audioSource2 = GameObject.Find("ErrorClic").GetComponent<AudioSource>();
+                audioSource2.Play();
                 return;
             }
             if (monster.GetComponent<CardAsset>().bFirstTurn)
             {
                 Debug.Log(monster.name + " just spawned, cant use it");
+                AudioSource audioSource2 = GameObject.Find("ErrorClic").GetComponent<AudioSource>();
+                audioSource2.Play();
                 return;
             }
 
             if (monster.GetComponent<CardAsset>().player)
             {
                 Debug.Log("Player, GTFO");
+                AudioSource audioSource2 = GameObject.Find("ErrorClic").GetComponent<AudioSource>();
+                audioSource2.Play();
                 return;
             }
             
@@ -55,21 +63,29 @@ public class CombatManager : MonoBehaviour {
             if (!isOwned)
             {
                 Debug.Log("Bad Owner!");
+                AudioSource audioSource2 = GameObject.Find("ErrorClic").GetComponent<AudioSource>();
+                audioSource2.Play();
                 return;
             }
             selectedMonster = monster;
+
+            AudioSource audioSource = GameObject.Find("ClicSound").GetComponent<AudioSource>();
+            audioSource.Play();
             Debug.Log("Selected " + selectedMonster.name);
 
 
             selectedMonster.GetComponent<MonsterAnim>().enableOutline("green");
         }
-        else
+        else // If second select
         {
             targetMonster = monster;
             Debug.Log("Selected " + targetMonster.name);
 
             if (selectedMonster != targetMonster)
             {
+                AudioSource audioSource = GameObject.Find("ClicSound2").GetComponent<AudioSource>();
+                audioSource.Play();
+
                 if (targetMonster.GetComponent<CardAsset>().player)
                 {
                     Debug.Log("Attacking a player!");
@@ -77,7 +93,7 @@ public class CombatManager : MonoBehaviour {
                     int lifeLeft = selectedMonster.GetComponent<CardAsset>().AttackPlayer(targetMonster);
 
                     selectedMonster.GetComponent<MonsterAnim>().attackTarget(monster);
-                    //targetMonster.GetComponent<IA_Visualize>().enableOutline("red");
+                    targetMonster.GetComponent<IA_Visualize>().getHit();
                 }
                 else
                 {
@@ -95,6 +111,8 @@ public class CombatManager : MonoBehaviour {
             }
             else
             {
+                AudioSource audioSource = GameObject.Find("ErrorClic").GetComponent<AudioSource>();
+                audioSource.Play();
                 Debug.Log("Seems that " + selectedMonster.name + " == " + targetMonster.name);
             }
             selectedMonster.GetComponent<MonsterAnim>().disableOutline();

@@ -147,8 +147,10 @@ using HoloToolkit.Unity;
                 HandlePlacement();
                 eventData.Use();
             }
+        AudioSource audioSource = GameObject.Find("ClicSound").GetComponent<AudioSource>();
+        audioSource.Play();
 
-        }
+    }
 
         private void HandlePlacement()
         {

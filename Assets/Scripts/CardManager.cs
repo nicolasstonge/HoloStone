@@ -131,6 +131,9 @@ public class CardManager : MonoBehaviour
         iPlayerLife = STARTING_LIFE;
         iAILife = STARTING_LIFE;
 
+        AudioSource audioSource = GameObject.Find("StartGame").GetComponent<AudioSource>();
+        audioSource.Play();
+
         bGameStarted = true;
 
 		Debug.Log ("before"+iPlayerLife);
@@ -264,6 +267,10 @@ public class CardManager : MonoBehaviour
                         {
                             mYouWon = obj;
                             mYouWon.SetActive(false);
+                            
+                            AudioSource audioSource = GameObject.Find("WinSound").GetComponent<AudioSource>();
+
+                            audioSource.Play();
                             bInitStringWon = true;
                         }
                     }

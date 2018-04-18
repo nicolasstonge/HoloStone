@@ -63,7 +63,10 @@ public class IA_Visualize : MonoBehaviour, IInputClickHandler
 
     public void getHit()
     {
-       // TODO
+        var blood = GameObject.Find("Blood").GetComponent<ParticleSystem>();
+        blood.Play();
+        //Destroy(gameObject, blood.duration);
+
     }
 
     public void OnMouseDown()

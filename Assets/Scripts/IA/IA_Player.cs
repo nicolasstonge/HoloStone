@@ -103,7 +103,7 @@ public class IA_Player : MonoBehaviour
         card.transform.parent = place;
         Debug.Log("Setting the card active... " + card.name);
         card.SetActive(true);
-        card.transform.Rotate(Vector3.up, 90);
+        card.transform.Rotate(Vector3.up, 180);
         Debug.Log("Should see the card now.");
 
 
