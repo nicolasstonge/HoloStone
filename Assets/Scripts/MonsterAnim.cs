@@ -188,15 +188,16 @@ public class MonsterAnim : MonoBehaviour, IInputClickHandler
         RemoveCard();
     }
 
-    IEnumerator RemoveCard()
+    public void RemoveCard()
     {
         // Wait for the animation
-        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        //yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
         // Get the CardManager
         GameObject cardManObj = GameObject.Find("CardManager");
         CardManager cardManager = cardManObj.GetComponent<CardManager>();
         // Remove ourself
         cardManager.RemoveCardFromDeck(GetComponent<CardAsset>());
+        return;
     }
 
 }

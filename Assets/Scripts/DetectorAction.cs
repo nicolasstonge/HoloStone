@@ -60,6 +60,7 @@ public class DetectorAction : MonoBehaviour, ITrackableEventHandler, IInputClick
         Debug.Log("Get playable");
 
         GameObject card = new GameObject();
+
         for (int i = 0; i < t.childCount; i++)
         {
             if (t.GetChild(i).gameObject.tag == "Playable")

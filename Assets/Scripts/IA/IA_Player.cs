@@ -12,10 +12,15 @@ public class IA_Player : MonoBehaviour
     // Ref on the CardManager
     private CardManager mCardManager;
     private CombatManager mcombatManager;
-    // Use this for initialization
+
+    public System.Random rnd;
+
+
+
     void Start()
     {
-
+        // Create random seed
+        rnd = new System.Random();
     }
 
     // Update is called once per frame
@@ -36,7 +41,7 @@ public class IA_Player : MonoBehaviour
     {
         GameObject[] ListDeck = GameObject.FindGameObjectsWithTag("DeckAI");
         // TODO : Change dummy random
-        return ListDeck[0];
+        return ListDeck[rnd.Next(0, ListDeck.Length)];
 
     }
 
@@ -156,21 +161,38 @@ public class IA_Player : MonoBehaviour
         {
             try
             {
-                if (CardsIA.Count > 0)
+                
+                if (CardsIA.Count > 0 )
                 {
                     foreach (CardAsset card in GetMonsterOnBoard())
                     {
+                        int nbrEnnemies = GetEnnemiesOnBoard().Count;
                         // Check if its not first turn for the card
-                        if(!card.bFirstTurn)
+                        if (!card.bFirstTurn && nbrEnnemies > 0)
                         {
                             Debug.Log("Attack with " + card.name);
                             GameObject MonsterSelected = (card as MonoBehaviour).gameObject;
                             GameObject monsterTargeted = (GetEnnemiesOnBoard()[0] as MonoBehaviour).gameObject;
                             AttackWithMonsters(MonsterSelected, monsterTargeted);
                         }
+                        // If no monster, lets attack the player
+                        else if(!card.bFirstTurn && nbrEnnemies == 0 && mCardManager)
+                        {
+                            Debug.Log("Attack Player with " + card.name);
+                            CardAsset currentPlayerStats = mCardManager.getPlayerStats();
+                            GameObject MonsterSelected = (card as MonoBehaviour).gameObject;
+                            GameObject monsterTargeted = (currentPlayerStats as MonoBehaviour).gameObject;
+                            AttackWithMonsters(MonsterSelected, monsterTargeted);
+
+                        }
+                        else
+                        {
+                            Debug.Log("No cardManager");
+                        }
 
                     }
                 }
+
             }
             catch (Exception e)
             {
@@ -220,10 +242,10 @@ public class IA_Player : MonoBehaviour
 
     public List<CardAsset> GetMonsterOnBoard()
     {
-        return FindObjectsOfType<CardManager>()[0].GetAICardOnBoard();
+        return mCardManager.GetAICardOnBoard();
     }
     public List<CardAsset> GetEnnemiesOnBoard()
     {
-        return FindObjectsOfType<CardManager>()[0].GetPlayerCardOnBoard();
+        return mCardManager.GetPlayerCardOnBoard();
     }
 }

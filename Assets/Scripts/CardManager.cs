@@ -14,9 +14,11 @@ public class CardManager : MonoBehaviour
     float fNextTime = 0;
     bool bTurnPlayer = true;
     bool bGameStarted = false;
+
+    // Deck joueurs on the board
     List<CardAsset> lCardsPlayer;
     List<CardAsset> lCardsAI;
-    public int iPlayerLife = -1;    
+    public int iPlayerLife = -1;
     public int iAILife = -1;
 
     GameObject mYouLoose;
@@ -27,15 +29,16 @@ public class CardManager : MonoBehaviour
     bool bGameDone = false;
 
     private IA_Player ia;
+    private CardAsset mPlayerStats;
 
     int iCurrentPlayerActionPoints = -1;
 
     const int STARTING_LIFE = 15;
     const int ACTION_POINT = 3;
 
-	const int AI_STARTING_LIFE = 15;
+    const int AI_STARTING_LIFE = 15;
 
-	QuitGame quitgame;
+    QuitGame quitgame;
 
     public List<CardAsset> GetAICardOnBoard()
     {
@@ -81,19 +84,26 @@ public class CardManager : MonoBehaviour
     public void RemoveCardFromDeck(CardAsset card)
     {
         Debug.Log("Remove card " + card.name);
-        List<CardAsset> cardDeck;
-        if (card.GetComponent<DetectorAction>().iPlayerOwned == 1)
+
+        if (lCardsPlayer.Contains(card))
         {
-            cardDeck = lCardsPlayer;
+            Debug.Log(lCardsPlayer.Remove(card));
+            // Once removed from the board, DESTROY!
+            Debug.Log("Destroy " + card.name);
+            Destroy((card as MonoBehaviour).gameObject, 10);
+        }
+        else if (lCardsAI.Contains(card))
+        {
+            Debug.Log(lCardsAI.Remove(card));
+            // Once removed from the board, DESTROY!
+            Debug.Log("Destroy " + card.name);
+            Destroy((card as MonoBehaviour).gameObject, 10);
         }
         else
         {
-            cardDeck = lCardsAI;
+            Debug.Log("Cannot find which player is owning the card");
         }
-        Debug.Log(cardDeck.Remove(card));
-        // Once removed from the board, DESTROY!
-        Debug.Log("Destroy " + card.name);
-        GameObject.Destroy(card.gameObject);
+
     }
 
     public bool GetCurrentPlayerTurn()
@@ -101,28 +111,27 @@ public class CardManager : MonoBehaviour
         return bTurnPlayer;
     }
 
-	public int GetCurrentPlayerLife()
-	{
-		return iPlayerLife;
-	}
+    public int GetCurrentPlayerLife()
+    {
+        return iPlayerLife;
+    }
 
-	public int GetCurrentEnnemyLife()
-	{
-		return iAILife;
-	}
-	public bool GetGameStarted()
-	{
-		return bGameStarted;
-	}
+    public int GetCurrentEnnemyLife()
+    {
+        return iAILife;
+    }
+    public bool GetGameStarted()
+    {
+        return bGameStarted;
+    }
 
-    void Start ()
+    void Start()
     {
 
-       
         StartGame();
 
-        quitgame =(QuitGame) FindObjectOfType(typeof(QuitGame));
-	}
+        quitgame = (QuitGame)FindObjectOfType(typeof(QuitGame));
+    }
 
     public void StartGame()
     {
@@ -134,16 +143,19 @@ public class CardManager : MonoBehaviour
         AudioSource audioSource = GameObject.Find("StartGame").GetComponent<AudioSource>();
         audioSource.Play();
 
+
+
         bGameStarted = true;
 
-		Debug.Log ("before"+iPlayerLife);
-		Debug.Log ("before"+iAILife);
-		Debug.Log ("Game Start");
+        Debug.Log("before" + iPlayerLife);
+        Debug.Log("before" + iAILife);
+        Debug.Log("Game Start");
     }
 
     public void PassTurnPlayer()
     {
-        
+        CombatManager combatManager = GameObject.Find("Board").GetComponent<CombatManager>();
+        combatManager.resetSelection();
         bTurnPlayer = !bTurnPlayer;
         iCurrentPlayerActionPoints = ACTION_POINT;
         List<CardAsset> cardDeck;
@@ -195,7 +207,7 @@ public class CardManager : MonoBehaviour
             }
 
         }
-    
+
 
     }
 
@@ -207,7 +219,7 @@ public class CardManager : MonoBehaviour
         {
             iAILife = iAILife - damage;
 
-            if(iAILife <= 0)
+            if (iAILife <= 0)
             {
                 //YOU WON
                 Debug.Log("YOU WON");
@@ -227,14 +239,30 @@ public class CardManager : MonoBehaviour
         }
     }
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
+
+        if (!mPlayerStats)
+        {
+            GameObject tmp = GameObject.Find("Player");
+            if (tmp)
+            {
+                mPlayerStats = tmp.GetComponent<CardAsset>();
+            }
+            else
+            {
+                Debug.Log("Err, cannot get player CardAsset");
+            }
+        }
+
+
         // Print the list of cards every secondes (For Debug purpose)
-        if(!bGameDone)
+        if (!bGameDone)
         {
             if (iPlayerLife <= 0 || iAILife <= 0)
-            {   
+            {
                 //Fin de partie
-                
+
                 //quitgame.Quit();
                 if (iPlayerLife <= 0)
                 {
@@ -267,7 +295,7 @@ public class CardManager : MonoBehaviour
                         {
                             mYouWon = obj;
                             mYouWon.SetActive(false);
-                            
+
                             AudioSource audioSource = GameObject.Find("WinSound").GetComponent<AudioSource>();
 
                             audioSource.Play();
@@ -312,7 +340,12 @@ public class CardManager : MonoBehaviour
             }
         }
 
-        
 
+
+    }
+
+    public CardAsset getPlayerStats()
+    {
+        return mPlayerStats;
     }
 }

@@ -144,7 +144,7 @@ public class CombatManager : MonoBehaviour {
                     // Attack the Selected Monster
                     int lifeLeft = selectedMonster.GetComponent<CardAsset>().AttackPlayer(targetMonster);
 
-                    selectedMonster.GetComponent<MonsterAnim>().attackTarget(monster);
+                    //selectedMonster.GetComponent<MonsterAnim>().attackTarget(monster);
                 }
                 else
                 {
@@ -159,5 +159,11 @@ public class CombatManager : MonoBehaviour {
             selectedMonster = null;
             targetMonster = null;
         }
+    }
+
+    public void resetSelection()
+    {
+        selectedMonster = null;
+        targetMonster = null;
     }
 }
